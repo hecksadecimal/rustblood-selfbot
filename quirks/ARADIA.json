@@ -1,0 +1,22 @@
+{
+    "handle": "apocalypseArisen",
+    "acronym": "AA",
+    "quirks": [
+        {
+            "style": "lowercase"
+        },
+        {
+            "simple_replacements": [
+                [
+                    ".", ""
+                ],
+                [
+                    ",", ""
+                ],
+                [
+                    "'", ""
+                ]
+            ]
+        }
+    ]
+}
