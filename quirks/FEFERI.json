@@ -1,0 +1,19 @@
+{
+    "handle": "cuttlefishCuller",
+    "acronym": "CC",
+    "quirks": [
+        {
+            "simple_replacements": [
+                [
+                    "h", ")("
+                ],
+                [
+                    "H", ")("
+                ],
+                [
+                    "E", "-E"
+                ]
+            ]
+        }
+    ]
+}

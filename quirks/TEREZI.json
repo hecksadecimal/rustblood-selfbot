@@ -1,0 +1,28 @@
+{
+    "handle": "gallowsCalibrator",
+    "acronym": "GC",
+    "quirks": [
+        {
+            "style": "uppercase"
+        },
+        {
+            "simple_replacements": [
+                [
+                    "A", "4"
+                ],
+                [
+                    "I", "1"
+                ],
+                [
+                    "E", "3"
+                ],
+                [
+                    ":)", ":]"
+                ],
+                [
+                    ":(", ":["
+                ]
+            ]
+        }
+    ]
+}

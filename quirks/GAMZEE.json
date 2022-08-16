@@ -1,0 +1,9 @@
+{
+    "handle": "terminallyCapricious",
+    "acronym": "TC",
+    "quirks": [
+        {
+            "style": "alternating"
+        }
+    ]
+}

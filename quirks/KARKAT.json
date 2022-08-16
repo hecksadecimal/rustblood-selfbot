@@ -1,0 +1,9 @@
+{
+    "handle": "carcinoGeneticist",
+    "acronym": "CG",
+    "quirks": [
+        {
+            "style": "uppercase"
+        }
+    ]
+}

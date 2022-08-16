@@ -1,0 +1,72 @@
+// 'quirks' is an array of dicts that describes operations to be done on a string. Operations are done in the order these quirks are described in.
+// 'handle' is just a convenience for the script to display for debugging.
+// 'acronym' is used to construct the final message. Allows for characters with the same acronym to be used, just with different filenames to reference them. Optional.
+//
+// Possible quirks:
+//                  prefix:
+//                  Adds the following characters to the beginning of the string.
+//
+//                  suffix:
+//                  Adds the following characters to the end of the string.
+//
+//                  simple_replacements:
+//                  For each replacement operation described, changes all occurances of the supplied character sequences inside the string.
+//                  Operations occur in their described order.
+//
+//                  random_replacements:
+//                  For each replacement operation described, replaces all occurances of the supplied character sequence inside the string with a random selection.
+//                  Operations occut in their described order.
+//
+//                  regex_replacements:
+//                  For each replacement operation desribed, replaces all matches of the supplied regex with the supplied pattern. This does support groups, as well as named groups.
+//
+//                  scramble:
+//                  For each operation described, changes all occurances of the supplied character sequence inside the string with a random arrangement of the characters supplied.
+//                  Operations occur in their described order.
+//
+//                  style:
+//                  Describes a typing style. If this is specified, the script will attempt to apply special operations.
+//                  Supported values: lowercase, uppercase, alternating, camelcase, reverse, inverted
+//
+{
+    "handle": "yourHandle",
+    "acronym": "YH",
+    "quirks": [
+        {
+            "prefix": ">>> "
+        },
+        {
+            "simple_replacements": [
+                [
+                    "z", "zee"
+                ]
+            ]
+        },
+        {
+            "random_replacements": [
+                [
+                    "lmao", ["laughing my ass off", "assing my laugh off", "hahahaha"]
+                ]
+            ]
+        },
+        {
+            "scramble": [
+                [
+                    "fuck", "%&#@"
+                ],
+                [
+                    "shit", "%&!@"
+                ],
+                [
+                    "ass", "@$%"
+                ]
+            ]
+        },
+        {
+            "suffix": " <<<"
+        },
+        {
+            "style": "lowercase"
+        }
+    ]
+}

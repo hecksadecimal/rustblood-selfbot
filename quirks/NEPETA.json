@@ -1,0 +1,19 @@
+{
+    "handle": "arsenicCatnip",
+    "acronym": "AC",
+    "quirks": [
+        {
+            "style": "lowercase"
+        },
+        {
+            "prefix": ":33 < "
+        },
+        {
+            "simple_replacements": [
+                [
+                    "ee", "33"
+                ]
+            ]
+        }
+    ]
+}

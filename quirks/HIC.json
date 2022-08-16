@@ -1,0 +1,16 @@
+{
+    "handle": "cuttlefishCuller",
+    "acronym": "HIC",
+    "quirks": [
+        {
+            "simple_replacements": [
+                [
+                    "H", ")("
+                ],
+                [
+                    "E", "-E"
+                ]
+            ]
+        }
+    ]
+}

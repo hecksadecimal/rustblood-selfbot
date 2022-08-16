@@ -1,0 +1,28 @@
+{
+    "handle": "twinArmageddons",
+    "acronym": "TA",
+    "quirks": [
+        {
+            "style": "lowercase"
+        },
+        {
+            "simple_replacements": [
+                [
+                    "s", "2"
+                ],
+                [
+                    "i", "ii"
+                ],
+                [
+                    "to", "two"
+                ],
+                [
+                    "too", "two"
+                ],
+                [
+                    "'", ""
+                ]
+            ]
+        }
+    ]
+}

@@ -1,0 +1,28 @@
+{
+    "handle": "grimAuxiliatrix",
+    "acronym": "GA",
+    "quirks": [
+        {
+            "style": "camelcase"
+        },
+        {
+            "simple_replacements": [
+                [
+                    "'", ""
+                ],
+                [
+                    ".", ""
+                ],
+                [
+                    ",", ""
+                ],
+                [
+                    "?", ""
+                ],
+                [
+                    "!", ""
+                ]
+            ]
+        }
+    ]
+}

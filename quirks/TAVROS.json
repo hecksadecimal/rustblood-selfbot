@@ -1,0 +1,16 @@
+{
+    "handle": "adiosToreador",
+    "acronym": "AT",
+    "quirks": [
+        {
+            "style": "inverted"
+        },
+        {
+            "simple_replacements": [
+                [
+                    ".", ","
+                ]
+            ]
+        }
+    ]
+}

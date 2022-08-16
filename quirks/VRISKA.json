@@ -1,0 +1,16 @@
+{
+    "handle": "arachnidsGrip",
+    "acronym": "AG",
+    "quirks": [
+        {
+            "simple_replacements": [
+                [
+                    "b", "8"
+                ],
+                [
+                    "B", "8"
+                ]
+            ]
+        }
+    ]
+}
