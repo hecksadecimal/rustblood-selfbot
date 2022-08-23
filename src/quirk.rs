@@ -20,6 +20,58 @@ impl Character {
         return quirked(s, self);
     }
 
+    pub fn online(&self) -> String {
+        return online(self);
+    }
+
+    pub fn offline(&self) -> String {
+        return offline(self);
+    }
+
+    pub fn idle(&self) -> String {
+        return idle(self);
+    }
+
+    pub fn unidle(&self) -> String {
+        return unidle(self);
+    }
+
+    pub fn join(&self) -> String {
+        return join(self);
+    }
+
+    pub fn leave(&self) -> String {
+        return leave(self);
+    }
+
+    pub fn block(&self, user: &str) -> String {
+        return block(self, user);
+    }
+
+    pub fn unblock(&self, user: &str) -> String {
+        return unblock(self, user);
+    }
+
+    pub fn upload(&self, file: &str) -> String {
+        return upload(self, file);
+    }
+
+    pub fn kick(&self, user: &str) -> String {
+        return kick(self, user);
+    }
+
+    pub fn ban(&self, user: &str) -> String {
+        return ban(self, user);
+    }
+
+    pub fn unban(&self, user: &str) -> String {
+        return unban(self, user);
+    }
+
+    pub fn troll(&self, user: &str) -> String {
+        return troll(self, user);
+    }
+
     pub fn from_name(n: &str) -> Option<Character> {
         let root = current_dir().unwrap();
         let rel_path_string = format!("./quirks/{}.json", n);
@@ -52,10 +104,21 @@ impl Characters {
         let mut cs = Characters::default();
         cs.string = s.to_owned();
         let prefix_regex_string = r"^((?P<name>[A-Za-z]{1,})?: )";
+        let prefix_cmd_regex_string = r"^((?P<name>[A-Za-z]{1,})! )";
         let regex = Regex::new(prefix_regex_string).unwrap();
+        let regex_cmd = Regex::new(prefix_cmd_regex_string).unwrap();
+
         let lines = s.split("\n");
         for line in lines {
             for caps in regex.captures_iter(line) {
+                let c = Character::from_name(&caps["name"]);
+                if c.is_some(){
+                    cs.characters.entry(caps["name"].to_string()).or_insert_with(|| {
+                        c.unwrap()
+                    });
+                }
+            }
+            for caps in regex_cmd.captures_iter(line) {
                 let c = Character::from_name(&caps["name"]);
                 if c.is_some(){
                     cs.characters.entry(caps["name"].to_string()).or_insert_with(|| {
@@ -70,8 +133,10 @@ impl Characters {
 
     pub fn quirked(&self) -> String {
         let mut string = String::new();
-        let prefix_regex_string = r"^(?P<to_remove>(?P<name>[A-Za-z]{1,})?: )";
+        let prefix_regex_string = r#"^(?P<to_remove>(?P<name>[A-Za-z]{1,})?: )"#;
         let regex = Regex::new(prefix_regex_string).unwrap();
+        let prefix_regex_cmd_string = r#"^(?P<to_remove>(?P<name>[A-Za-z]{1,})! )"#;
+        let regex_cmd = Regex::new(prefix_regex_cmd_string).unwrap();
         let lines = self.string.split("\n");
         for line in lines {
             if regex.captures_iter(line).count() > 0 {
@@ -79,6 +144,40 @@ impl Characters {
                     if self.characters.contains_key(&caps["name"]) {
                         let line_trimmed = line.replace(&caps["to_remove"], "");
                         string = string + &self.characters[&caps["name"]].quirked(&line_trimmed) + "\n";
+                    } else {
+                        string = string + line + "\n";
+                    }
+                }
+            } else if regex_cmd.captures_iter(line).count() > 0 {
+                for caps in regex_cmd.captures_iter(line) {
+                    if self.characters.contains_key(&caps["name"]) {
+                        let line_trimmed = line.replace(&caps["to_remove"], "");
+                        let args: Vec<&str> = line_trimmed.split(' ').collect();
+                        string = match args[0] {
+                            "offline" => string + &self.characters[&caps["name"]].offline() + "\n",
+                            "online" => string + &self.characters[&caps["name"]].online() + "\n",
+                            "idle" => string + &self.characters[&caps["name"]].idle() + "\n",
+                            "unidle" => string + &self.characters[&caps["name"]].unidle() + "\n",
+                            "join" => string + &self.characters[&caps["name"]].join() + "\n",
+                            "leave" => string + &self.characters[&caps["name"]].leave() + "\n",
+                            _ => {
+                                if args.len() > 1 {
+                                    let complex_cmd = match args[0] {
+                                        "block" => string + &self.characters[&caps["name"]].block(args[1]) + "\n",
+                                        "unblock" => string + &self.characters[&caps["name"]].unblock(args[1]) + "\n",
+                                        "ban" => string + &self.characters[&caps["name"]].ban(args[1]) + "\n",
+                                        "unban" => string + &self.characters[&caps["name"]].unban(args[1]) + "\n",
+                                        "kick" => string + &self.characters[&caps["name"]].kick(args[1]) + "\n",
+                                        "upload" => string + &self.characters[&caps["name"]].upload(args[1]) + "\n",
+                                        "troll" => string + &self.characters[&caps["name"]].troll(args[1]) + "\n",
+                                        _ => string + line + "\n"
+                                    };
+                                    return complex_cmd;
+                                } else {
+                                    return string + line + "\n";
+                                }
+                            }
+                        };
                     } else {
                         string = string + line + "\n";
                     }
@@ -204,6 +303,94 @@ pub fn quirked(s: &str, c: &Character) -> String {
     new_string = mutate_line_multi(s, &c.quirks);
     new_string = format!("{}: {}", c.acronym, new_string);
     new_string
+}
+
+pub fn online(c: &Character) -> String {
+    format!("```\n-- {} [{}] is now online! --\n```", c.handle, c.acronym)
+}
+
+pub fn offline(c: &Character) -> String {
+    format!("```\n-- {} [{}] is now offline! --\n```", c.handle, c.acronym)
+}
+
+pub fn idle(c: &Character) -> String {
+    format!("```\n-- {} [{}] is now idle! --\n```", c.handle, c.acronym)
+}
+
+pub fn unidle(c: &Character) -> String {
+    format!("```\n-- {} [{}] is no longer idle! --\n```", c.handle, c.acronym)
+}
+
+pub fn join(c: &Character) -> String {
+    format!("```\n-- {} [{}] has joined the memo! --\n```", c.handle, c.acronym)
+}
+
+pub fn leave(c: &Character) -> String {
+    format!("```\n-- {} [{}] has left the memo! --\n```", c.handle, c.acronym)
+}
+
+pub fn block(c: &Character, user: &str) -> String {
+    let mut acronym = user.chars().next().unwrap().to_uppercase().to_string();
+    for c in user.chars() {
+        if c.is_uppercase() {
+            acronym = acronym + c.to_string().as_str();
+        }
+    }
+    format!("```\n-- {} [{}] has blocked {} [{}]! --\n```", c.handle, c.acronym, user, acronym)
+}
+
+pub fn unblock(c: &Character, user: &str) -> String {
+    let mut acronym = user.chars().next().unwrap().to_uppercase().to_string();
+    for c in user.chars() {
+        if c.is_uppercase() {
+            acronym = acronym + c.to_string().as_str();
+        }
+    }
+    format!("```\n-- {} [{}] has unblocked {} [{}]! --\n```", c.handle, c.acronym, user, acronym)
+}
+
+pub fn kick(c: &Character, user: &str) -> String {
+    let mut acronym = user.chars().next().unwrap().to_uppercase().to_string();
+    for c in user.chars() {
+        if c.is_uppercase() {
+            acronym = acronym + c.to_string().as_str();
+        }
+    }
+    format!("```\n-- {} [{}] has kicked {} [{}] from the memo! --\n```", c.handle, c.acronym, user, acronym)
+}
+
+pub fn ban(c: &Character, user: &str) -> String {
+    let mut acronym = user.chars().next().unwrap().to_uppercase().to_string();
+    for c in user.chars() {
+        if c.is_uppercase() {
+            acronym = acronym + c.to_string().as_str();
+        }
+    }
+    format!("```\n-- {} [{}] has banned {} [{}] from the memo! --\n```", c.handle, c.acronym, user, acronym)
+}
+
+pub fn unban(c: &Character, user: &str) -> String {
+    let mut acronym = user.chars().next().unwrap().to_uppercase().to_string();
+    for c in user.chars() {
+        if c.is_uppercase() {
+            acronym = acronym + c.to_string().as_str();
+        }
+    }
+    format!("```\n-- {} [{}] has unbanned {} [{}] from the memo! --\n```", c.handle, c.acronym, user, acronym)
+}
+
+pub fn upload(c: &Character, file: &str) -> String {
+    format!("```\n-- {} [{}] has uploaded \"{}\" --\n```", c.handle, c.acronym, file)
+}
+
+pub fn troll(c: &Character, user: &str) -> String {
+    let mut acronym = user.chars().next().unwrap().to_uppercase().to_string();
+    for c in user.chars() {
+        if c.is_uppercase() {
+            acronym = acronym + c.to_string().as_str();
+        }
+    }
+    format!("```\n-- {} [{}] has begun trolling {} [{}]! --\n```", c.handle, c.acronym, user, acronym)
 }
 
 pub fn mutate_line_multi(s: &str, d: &Vec<BTreeMap<String, Value>>) -> String {

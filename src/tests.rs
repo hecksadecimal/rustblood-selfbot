@@ -4,8 +4,6 @@ mod quirks {
     use crate::quirk::Character;
     use test_case::test_case;
 
-    use std::env;
-
     #[test_case(false ; "without unicode")]
     #[test_case(true ; "with unicode")]
     fn can_serialize_deserialize(unicode: bool) {
@@ -639,6 +637,183 @@ NOTRADIA: Nothing to see here."#;
 
         let expected_string = r#"AA: lorem ipsum dolar somet
 NOTRADIA: Nothing to see here."#;
+
+        let cs = Characters::from_string(string);
+        let quirked_text = cs.quirked();
+        assert_eq!(quirked_text, expected_string);
+    }
+
+    #[test]
+    fn can_join_memo() {
+        let string = "ARADIA! join";
+        let expected_string = 
+r#"```
+-- apocalypseArisen [AA] has joined the memo! --
+```"#;
+
+        let cs = Characters::from_string(string);
+        let quirked_text = cs.quirked();
+        assert_eq!(quirked_text, expected_string);
+    }
+
+
+    #[test]
+    fn can_leave_memo() {
+        let string = "ARADIA! leave";
+        let expected_string = 
+r#"```
+-- apocalypseArisen [AA] has left the memo! --
+```"#;
+
+        let cs = Characters::from_string(string);
+        let quirked_text = cs.quirked();
+        assert_eq!(quirked_text, expected_string);
+    }
+
+    #[test]
+    fn can_go_online() {
+        let string = "ARADIA! online";
+        let expected_string = 
+r#"```
+-- apocalypseArisen [AA] is now online! --
+```"#;
+
+        let cs = Characters::from_string(string);
+        let quirked_text = cs.quirked();
+        assert_eq!(quirked_text, expected_string);
+    }
+
+    #[test]
+    fn can_go_offline() {
+        let string = "ARADIA! offline";
+        let expected_string = 
+r#"```
+-- apocalypseArisen [AA] is now offline! --
+```"#;
+
+        let cs = Characters::from_string(string);
+        let quirked_text = cs.quirked();
+        assert_eq!(quirked_text, expected_string);
+    }
+
+    #[test]
+    fn can_go_idle() {
+        let string = "ARADIA! idle";
+        let expected_string = 
+r#"```
+-- apocalypseArisen [AA] is now idle! --
+```"#;
+
+        let cs = Characters::from_string(string);
+        let quirked_text = cs.quirked();
+        assert_eq!(quirked_text, expected_string);
+    }
+
+    #[test]
+    fn can_go_unidle() {
+        let string = "ARADIA! unidle";
+        let expected_string = 
+r#"```
+-- apocalypseArisen [AA] is no longer idle! --
+```"#;
+
+        let cs = Characters::from_string(string);
+        let quirked_text = cs.quirked();
+        assert_eq!(quirked_text, expected_string);
+    }
+
+    #[test]
+    fn can_block() {
+        let string = "ARADIA! block ectoBiologist";
+        let expected_string = 
+r#"```
+-- apocalypseArisen [AA] has blocked ectoBiologist [EB]! --
+```
+"#;
+
+        let cs = Characters::from_string(string);
+        let quirked_text = cs.quirked();
+        assert_eq!(quirked_text, expected_string);
+    }
+
+    #[test]
+    fn can_unblock() {
+        let string = "ARADIA! unblock ectoBiologist";
+        let expected_string = 
+r#"```
+-- apocalypseArisen [AA] has unblocked ectoBiologist [EB]! --
+```
+"#;
+
+        let cs = Characters::from_string(string);
+        let quirked_text = cs.quirked();
+        assert_eq!(quirked_text, expected_string);
+    }
+
+    #[test]
+    fn can_upload() {
+        let string = "ARADIA! upload test.png";
+        let expected_string = 
+r#"```
+-- apocalypseArisen [AA] has uploaded "test.png" --
+```
+"#;
+
+        let cs = Characters::from_string(string);
+        let quirked_text = cs.quirked();
+        assert_eq!(quirked_text, expected_string);
+    }
+
+    #[test]
+    fn can_kick() {
+        let string = "ARADIA! kick ectoBiologist";
+        let expected_string = 
+r#"```
+-- apocalypseArisen [AA] has kicked ectoBiologist [EB] from the memo! --
+```
+"#;
+
+        let cs = Characters::from_string(string);
+        let quirked_text = cs.quirked();
+        assert_eq!(quirked_text, expected_string);
+    }
+
+    #[test]
+    fn can_ban() {
+        let string = "ARADIA! ban ectoBiologist";
+        let expected_string = 
+r#"```
+-- apocalypseArisen [AA] has banned ectoBiologist [EB] from the memo! --
+```
+"#;
+
+        let cs = Characters::from_string(string);
+        let quirked_text = cs.quirked();
+        assert_eq!(quirked_text, expected_string);
+    }
+
+    #[test]
+    fn can_unban() {
+        let string = "ARADIA! unban ectoBiologist";
+        let expected_string = 
+r#"```
+-- apocalypseArisen [AA] has unbanned ectoBiologist [EB] from the memo! --
+```
+"#;
+
+        let cs = Characters::from_string(string);
+        let quirked_text = cs.quirked();
+        assert_eq!(quirked_text, expected_string);
+    }
+
+    #[test]
+    fn can_troll() {
+        let string = "ARADIA! troll ectoBiologist";
+        let expected_string = 
+r#"```
+-- apocalypseArisen [AA] has begun trolling ectoBiologist [EB]! --
+```
+"#;
 
         let cs = Characters::from_string(string);
         let quirked_text = cs.quirked();
