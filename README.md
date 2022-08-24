@@ -2,6 +2,8 @@
 
 ### Usage
 
+WARNING: Self-bots are against discord's TOS. If you decide to run this you are doing so at your own risk, and understand that there's a chance your account will be banned.
+
 To use this program you must first obtain your discord token. This is a sensitive piece of information that you should not share with anybody, or they will be able to use it to use your account regardless of if you have 2FA enabled or not.
 
 These instructions are applicable to Firefox, but should be mostly the same between many modern browsers.
