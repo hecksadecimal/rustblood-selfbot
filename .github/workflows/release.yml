@@ -12,18 +12,20 @@ jobs:
         include:
           - target: x86_64-pc-windows-gnu
             archive: zip
-          - target: x86_64-unknown-linux-musl
+          - target: x86_64-unknown-linux-gnu
             archive: tar.gz tar.xz
           - target: x86_64-apple-darwin
             archive: zip
     steps:
       - uses: actions/checkout@master
+      - name: Install Deps
+        run: sudo apt-get install -y pkg-config libssl-dev
       - name: Compile and release
         uses: rust-build/rust-build.action@v1.3.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           RUSTTARGET: ${{ matrix.target }}
-          EXTRA_FILES: "README.md quirks"
+          EXTRA_FILES: "README.md LICENSE quirks"
           ARCHIVE_TYPES: ${{ matrix.archive }}
           MINIFY: "yes"
