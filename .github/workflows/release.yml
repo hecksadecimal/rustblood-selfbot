@@ -24,4 +24,4 @@ jobs:
           toolchain: nightly
           target: ${{ matrix.target }}
           command: build
-        args: --target ${{ matrix.target }} --release
+          args: --target ${{ matrix.target }} --release
