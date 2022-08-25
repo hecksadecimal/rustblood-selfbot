@@ -419,7 +419,13 @@ pub fn mutate_line(s: &str, d: &BTreeMap<String, Value>) -> String {
         },
         "random_replacements" => {
             for replacement in v.as_array().unwrap() {
-                string = string.replace(replacement[0].as_str().unwrap(), replacement[1].as_array().unwrap().choose(&mut rng).unwrap().as_str().unwrap());
+                let count = string.matches(replacement[0].as_str().unwrap());
+                let mut owned_string = string.clone();
+                for _ in count {
+                    owned_string = owned_string.replacen(replacement[0].as_str().unwrap(), replacement[1].as_array().unwrap().choose(&mut rng).unwrap().as_str().unwrap(), 1);
+                }
+
+                string = owned_string;
             }
             string
         },
@@ -433,19 +439,26 @@ pub fn mutate_line(s: &str, d: &BTreeMap<String, Value>) -> String {
         }
         "scramble" => {
             for replacement in v.as_array().unwrap() {
-                let scrambler = replacement[1].as_str().unwrap();
-                let scrambler_graphemes = scrambler.graphemes(true);
-                let mut list_graphemes: Vec<&str> = Vec::new();
-                for g in scrambler_graphemes {
-                    list_graphemes.push(g);
+                let count = string.matches(replacement[0].as_str().unwrap());
+                let mut owned_string = string.clone();
+
+                for _ in count {
+                    let scrambler = replacement[1].as_str().unwrap();
+                    let scrambler_graphemes = scrambler.graphemes(true);
+                    let mut list_graphemes: Vec<&str> = Vec::new();
+                    for g in scrambler_graphemes {
+                        list_graphemes.push(g);
+                    }
+                    let cloned_string = string.to_owned();
+                    let ms = cloned_string.matches(replacement[0].as_str().unwrap());
+                    for m in ms {
+                        list_graphemes.shuffle(&mut rng);
+                        let scrambler = String::from_iter(list_graphemes.to_owned());
+                        owned_string = owned_string.replacen(m, &scrambler, 1);
+                    }
                 }
-                let cloned_string = string.to_owned();
-                let ms = cloned_string.matches(replacement[0].as_str().unwrap());
-                for m in ms {
-                    list_graphemes.shuffle(&mut rng);
-                    let scrambler = String::from_iter(list_graphemes.to_owned());
-                    string = string.replacen(m, &scrambler, 1);
-                }
+
+                string = owned_string;
             }
             string
         },
