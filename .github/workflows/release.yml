@@ -13,7 +13,7 @@ jobs:
           - target: x86_64-pc-windows-gnu
             archive: zip
           - target: x86_64-unknown-linux-gnu
-            archive: tar.gz
+            archive: zip
     steps:
       - uses: actions/checkout@master
       - name: Install Deps
@@ -36,7 +36,7 @@ jobs:
         with:
           type: ${{ matrix.archive }}
           filename: ${{ matrix.target }}.${{ matrix.archive }}
-          exclusions: '*.git* /*node_modules/* .editorconfig Cargo.toml src/* .github/*'
+          exclusions: '*.git* /*node_modules/* .editorconfig Cargo.toml src .github target'
       - name: Upload Release
         uses: ncipollo/release-action@v1
         with:
