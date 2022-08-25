@@ -1,5 +1,8 @@
 extern crate discord;
 
+#[macro_use]
+extern crate self_update;
+
 use discord::model::Event;
 use discord::Discord;
 
@@ -9,6 +12,17 @@ pub mod quirk;
 pub mod tests;
 
 fn main() {
+	let status = self_update::backends::github::Update::configure()
+        .repo_owner("hecksadecimal")
+        .repo_name("rustblood-selfbot")
+        .bin_name("rustblood")
+        .show_download_progress(true)
+        .current_version(cargo_crate_version!())
+		.build().unwrap()
+		.update().unwrap();
+
+    println!("Update status: `{}`!", status.version());
+
 	let discord = Discord::from_user_token(&env::var("DISCORD_TOKEN").expect("Expected token"))
 		.expect("login failed");
 

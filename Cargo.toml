@@ -1,6 +1,6 @@
 [package]
 name = "rustblood"
-version = "0.1.1"
+version = "1.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -13,7 +13,7 @@ rand = "0.8.5"
 unicode-segmentation = "1.9.0"
 regex = "1.6"
 relative-path = { version = "1.7.2", features = ["serde"] }
-self_update = "0.30"
+self_update = { version = "0.30", features = ["archive-zip", "compression-zip-deflate"] }
 
 [features]
 static_ssl = ['openssl/vendored']
