@@ -16,8 +16,6 @@ These instructions are applicable to Firefox, but should be mostly the same betw
 6. In the 'Request Headers' section, copy the contents of 'Authorization'. Everything after 'Authorization:' and before 'Connection' is your token.
 7. See below for setting an environment variable.
 
-When the program is started and it has successfully logged in it will listen to messages that you post and search at the beginning of each line of that message for any string of characters followed by a Colon and a space. If there's a matching file within the quirks folder, and the file itself is valid, it will apply those quirks to that line. 
-
 See the included quirks folder for example usage. The program does not need to be restarted when adding new quirk files, or editing or deleting exisitng ones.
 
 #### Setting Environment Variable (Windows)
@@ -32,7 +30,39 @@ Follow [these instructions](https://phoenixnap.com/kb/set-environment-variable-m
 
 It should be DISCORD_TOKEN= followed by the token obtained earlier.
 
+### Quirking
 
+When the program is started and it has successfully logged in it will listen to messages that you post and search at the beginning of each line of that message for any string of characters followed by a Colon and a space. If there's a matching file within the quirks folder, and the file itself is valid, it will apply those quirks to that line. 
+
+Additionally, there are 'action commands', which are triggered by replacing the colon with an exclamation point and followwing it up with any of the following, as well as extra information for those commands which requie it.
+
+#### No-Argument commands
+
+    join
+    leave
+    idle
+    unidle
+    online
+    offline
+
+#### One-Argument commands
+
+    kick userName
+    ban userName
+    unban userName
+    upload filename
+    troll userName
+
+##### Examples
+
+```
+ARADIA! join
+ARADIA! kick turntechGodhead
+```
+
+```
+ARADIA: This is a simple test message.
+```
 
 
 
