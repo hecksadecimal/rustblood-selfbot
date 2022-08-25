@@ -42,4 +42,6 @@ jobs:
         with:
           artifacts: ${{ matrix.target }}.${{ matrix.archive }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          allowUpdates: true
+          replacesArtifacts: false
             
