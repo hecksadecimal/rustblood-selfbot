@@ -13,7 +13,7 @@ jobs:
           - target: x86_64-pc-windows-gnu
             archive: zip
           - target: x86_64-unknown-linux-gnu
-            archive: tar.gz tar.xz
+            archive: tar.gz
     steps:
       - uses: actions/checkout@master
       - name: Install Deps
@@ -29,3 +29,17 @@ jobs:
         with:
           command: build
           args: --target ${{ matrix.target }} --release
+      - name: Prepare Files
+        run: rm target/${{ matrix.target }}/release/rustblood.d && cp target/${{ matrix.target }}/release/rustblood* ./
+      - name: Archive Release
+        uses: thedoctor0/zip-release@main
+        with:
+          type: ${{ matrix.archive }}
+          filename: ${{ matrix.target }}.${{ matrix.archive }}
+          exclusions: '*.git* /*node_modules/* .editorconfig Cargo.toml src/* .github/*'
+      - name: Upload Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: ${{ matrix.target }}.${{ matrix.archive }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+            
