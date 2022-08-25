@@ -30,13 +30,13 @@ jobs:
           command: build
           args: --target ${{ matrix.target }} --release
       - name: Prepare Files
-        run: rm target/${{ matrix.target }}/release/rustblood.d && cp target/${{ matrix.target }}/release/rustblood* ./
+        run: rm target/${{ matrix.target }}/release/rustblood.d && cp target/${{ matrix.target }}/release/rustblood* ./ && rm -r target && rm -r src
       - name: Archive Release
         uses: thedoctor0/zip-release@main
         with:
           type: ${{ matrix.archive }}
           filename: ${{ matrix.target }}.${{ matrix.archive }}
-          exclusions: '*.git* /*node_modules/* .editorconfig Cargo.toml src .github target'
+          exclusions: '*.git* /*node_modules/* .editorconfig Cargo.toml Cargo.lock src .github target'
       - name: Upload Release
         uses: ncipollo/release-action@v1
         with:
