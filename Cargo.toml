@@ -15,7 +15,12 @@ regex = "1.6"
 relative-path = { version = "1.7.2", features = ["serde"] }
 self_update = "0.30"
 
-openssl = { version = "0.10.41", features = ["vendored"] }
+[features]
+static_ssl = ['openssl/vendored']
+
+[dependencies.openssl]
+version = "0.10.41"
+features = ["vendored"]
 
 [dev-dependencies]
 test-case = "2.2.1"
